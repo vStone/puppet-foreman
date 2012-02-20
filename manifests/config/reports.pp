@@ -1,4 +1,10 @@
+# = Class: foreman::config::reports
+#
+# Setup puppet to send reports to foreman
+#
 class foreman::config::reports {
+
+  require foreman::params
 
   # foreman reporter
   file {"${foreman::params::puppet_basedir}/reports/foreman.rb":

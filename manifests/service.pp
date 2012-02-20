@@ -1,4 +1,12 @@
+# = Class: foreman::service
+#
+# Setup the foreman service. Either standalone or through the use of passenger.
+#
+#
 class foreman::service {
+
+  require foreman::params
+
   case $foreman::params::passenger {
     true: {
       $service_ensure = 'stopped'
