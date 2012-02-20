@@ -1,4 +1,10 @@
+# = Class: foreman::config
+#
+# Configures the installed foreman.
+#
 class foreman::config {
+  require foreman::params
+
   Cron {
     require     => User[$foreman::params::user],
     user        => $foreman::params::user,
@@ -39,9 +45,9 @@ class foreman::config {
   }
 
   # cleans up the session entries in the database
-  # if you are using fact or report importers, this creates a session per request
-  # which can easily result with a lot of old and unrequired in your database
-  # eventually slowing it down.
+  # if you are using fact or report importers, this creates a session per
+  # request which can easily result with a lot of old and unrequired in your
+  # database eventually slowing it down.
   cron{'clear_session_table':
     command => "(cd ${foreman::params::app_root} && rake db:sessions:clear)",
     minute  => '15',

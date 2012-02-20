@@ -1,3 +1,11 @@
+# = Class: foreman::install
+#
+# Installs required packages on the system.
+#
+# == Requires:
+#
+# foreman::install:repos
+#
 class foreman::install {
   include foreman::install::repos
 

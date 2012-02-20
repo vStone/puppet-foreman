@@ -1,4 +1,10 @@
+# = Class: foreman::install::repos
+#
+# Add the foreman yum repository or debian/ubuntu apt repository.
+#
 class foreman::install::repos {
+  require foreman::params
+
   case $::operatingsystem {
     redhat,centos,fedora,Scientific: {
       $repo_testing_enabled = $foreman::params::use_testing ? {

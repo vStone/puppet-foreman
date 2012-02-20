@@ -1,6 +1,17 @@
+# = Class: foreman::config::passenger
+#
+# Setup foreman through passenger.
+#
+# == Requires:
+#
+#   apache::ssl
+#   passenger
+#
 class foreman::config::passenger {
   include apache::ssl
   include ::passenger
+
+  require foreman::params
 
   file {'foreman_vhost':
     path    => "${foreman::params::apache_conf_dir}/foreman.conf",
@@ -17,8 +28,9 @@ class foreman::config::passenger {
     require     => Class['foreman::install']
   }
 
-  # passenger ~2.10 will not load the app if a config.ru doesn't exist in the app
-  # root. Also, passenger will run as suid to the owner of the config.ru file.
+  # passenger ~2.10 will not load the app if a config.ru doesn't exist in the
+  # app root. Also, passenger will run as suid to the owner of the
+  # config.ru file.
   file { "$foreman::params::app_root/config.ru":
     ensure => link,
     owner  => $foreman::params::user,
