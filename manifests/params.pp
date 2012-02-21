@@ -63,7 +63,9 @@ class foreman::params (
   $railspath      = '/usr/share',
   $application_root = undef,
   $user           = 'foreman',
-  $environment    = 'production'
+  $environment    = 'production',
+  $puppethome     = undef,
+  $puppetbasedir  = undef
 ) {
 
   # Basic configurations
@@ -75,25 +77,29 @@ class foreman::params (
 
   # Advance configurations - no need to change anything here by default
   ## If there is no application_root defined, Fallback to default.
-  $app_root = $foreman::params::approot ? {
+  $app_root = $application_root ? {
     undef   => "${railspath}/foreman",
-    default => $foreman::params::approot,
+    default => $application_root,
   }
 
-  # OS specific paths
-  case $::operatingsystem {
-    redhat,centos,fedora,Scientific: {
-      $puppet_basedir  = '/usr/lib/ruby/site_ruby/1.8/puppet'
-      $apache_conf_dir = '/etc/httpd/conf.d'
-    }
-    Debian,Ubuntu: {
-      $puppet_basedir  = '/usr/lib/ruby/1.8/puppet'
-      $apache_conf_dir = '/etc/apache2/conf.d'
-    }
-    default:              {
-      $puppet_basedir  = '/usr/lib/ruby/1.8/puppet'
-      $apache_conf_dir = '/etc/apache2/conf.d/foreman.conf'
-    }
+  $puppet_basedir = $puppetbasedir ? {
+    undef => $::operatingsystem ? {
+      /(redhat|centos|fedora|Scientific)/ => '/usr/lib/ruby/site_ruby/1.8/puppet',
+      /(Debian|Ubuntu)/                   => '/usr/lib/ruby/1.8/puppet',
+      default                             => '/usr/lib/ruby/1.8/puppet',
+    },
+    default => $puppetbasedir,
   }
-  $puppet_home = '/var/lib/puppet'
+
+  $puppet_home =  $puppethome ? {
+    undef   => '/var/lib/puppet',
+    default => $puppethome,
+  }
+
+  $apache_conf_dir = $::operatingsystem ? {
+    /(redhat|centos|fedora|Scientific)/ => '/etc/httpd/conf.d',
+    /(Debian|Ubuntu)/                   => '/etc/apache2/conf.d',
+    default                             => '/etc/apache2/conf.d/foreman.conf',
+  }
+
 }
