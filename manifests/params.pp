@@ -59,6 +59,7 @@ class foreman::params (
   $authentication = false,
   $passenger      = true,
   $ssl            = true,
+  $use_repo       = true,
   $use_testing    = true,
   $railspath      = '/usr/share',
   $application_root = undef,
