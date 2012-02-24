@@ -71,8 +71,9 @@ class foreman::params (
 
   # Basic configurations
   ## If there is no url defined, fallback to the default.
+  if $ssl { $uri = 'https://' } else { $uri = 'http://' }
   $foreman_url = $url ? {
-    undef   => "http://${::fqdn}",
+    undef   => "${uri}${::fqdn}",
     default => $url,
   }
 
