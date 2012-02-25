@@ -1,9 +1,9 @@
-# = Class: foreman::service::disable
+# = Class: foreman::service::disabled
 #
 # Description of foreman::service::disabled
 #
 #
-class foreman::service::disable inherits foreman::service {
+class foreman::service::disabled inherits foreman::service {
 
   Service['foreman'] {
     ensure => 'stopped',
