@@ -86,8 +86,8 @@ class foreman::params (
 
   $puppet_basedir = $puppetbasedir ? {
     undef => $::operatingsystem ? {
-      /(redhat|centos|fedora|Scientific)/ => '/usr/lib/ruby/site_ruby/1.8/puppet',
-      /(Debian|Ubuntu)/                   => '/usr/lib/ruby/1.8/puppet',
+      /(?i:redhat|centos|fedora|Scientific)/ => '/usr/lib/ruby/site_ruby/1.8/puppet',
+      /(?i:Debian|Ubuntu)/                   => '/usr/lib/ruby/1.8/puppet',
       default                             => '/usr/lib/ruby/1.8/puppet',
     },
     default => $puppetbasedir,
