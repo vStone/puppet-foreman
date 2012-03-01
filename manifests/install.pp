@@ -32,8 +32,10 @@ class foreman::install {
     Package['foreman'] {
       require => Class['foreman::install::repos'],
     }
-    Package['foreman-sqlite3'] {
-      require => Class['foreman::install::repos'],
+    if defined(Package['foreman-sqlite3']) {
+      Package['foreman-sqlite3'] {
+        require => Class['foreman::install::repos'],
+      }
     }
   }
 
