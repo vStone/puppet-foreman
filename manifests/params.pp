@@ -59,6 +59,7 @@ class foreman::params (
   $authentication = false,
   $passenger      = true,
   $ssl            = true,
+  $use_repo       = true,
   $use_testing    = true,
   $railspath      = '/usr/share',
   $application_root = undef,
@@ -70,8 +71,9 @@ class foreman::params (
 
   # Basic configurations
   ## If there is no url defined, fallback to the default.
+  if $ssl { $uri = 'https://' } else { $uri = 'http://' }
   $foreman_url = $url ? {
-    undef   => "http://${::fqdn}",
+    undef   => "${uri}${::fqdn}",
     default => $url,
   }
 
@@ -84,9 +86,9 @@ class foreman::params (
 
   $puppet_basedir = $puppetbasedir ? {
     undef => $::operatingsystem ? {
-      /(redhat|centos|fedora|Scientific)/ => '/usr/lib/ruby/site_ruby/1.8/puppet',
-      /(Debian|Ubuntu)/                   => '/usr/lib/ruby/1.8/puppet',
-      default                             => '/usr/lib/ruby/1.8/puppet',
+      /(?i:redhat|centos|fedora|Scientific)/ => '/usr/lib/ruby/site_ruby/1.8/puppet',
+      /(?i:Debian|Ubuntu)/                   => '/usr/lib/ruby/1.8/puppet',
+      default                                => '/usr/lib/ruby/1.8/puppet',
     },
     default => $puppetbasedir,
   }

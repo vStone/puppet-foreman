@@ -7,13 +7,14 @@
 # foreman::install:repos
 #
 class foreman::install {
-  include foreman::install::repos
+
+  require foreman::params
+  $use_repo = $foreman::params::use_repo
 
   case $::operatingsystem {
     Debian,Ubuntu:  {
       package {'foreman-sqlite3':
         ensure  => latest,
-        require => Class['foreman::install::repos'],
         notify  => [Class['foreman::service'],
                     Package['foreman']],
       }
@@ -23,8 +24,19 @@ class foreman::install {
 
   package {'foreman':
     ensure  => latest,
-    require => Class['foreman::install::repos'],
     notify  => Class['foreman::service'],
+  }
+
+  if $use_repo {
+    include foreman::install::repos
+    Package['foreman'] {
+      require => Class['foreman::install::repos'],
+    }
+    if defined(Package['foreman-sqlite3']) {
+      Package['foreman-sqlite3'] {
+        require => Class['foreman::install::repos'],
+      }
+    }
   }
 
 }
