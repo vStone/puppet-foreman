@@ -22,10 +22,10 @@
   # Use puppet certificates for SSL
 
   SSLEngine On
-  SSLCertificateFile      /var/lib/puppet/ssl/certs/<%= fqdn %>.pem
-  SSLCertificateKeyFile   /var/lib/puppet/ssl/private_keys/<%= fqdn %>.pem
-  SSLCertificateChainFile /var/lib/puppet/ssl/certs/ca.pem
-  SSLCACertificateFile    /var/lib/puppet/ssl/certs/ca.pem
+  SSLCertificateFile      <%= scope.lookupvar("::puppet::server::ssl_cert") %>
+  SSLCertificateKeyFile   <%= scope.lookupvar("::puppet::server::ssl_cert_key") %>
+  SSLCertificateChainFile <%= scope.lookupvar("::puppet::server::ssl_chain") %>
+  SSLCACertificateFile    <%= scope.lookupvar("::puppet::server::ssl_ca_cert") %>
   SSLVerifyClient         optional
   SSLOptions              +StdEnvVars
   SSLVerifyDepth          3

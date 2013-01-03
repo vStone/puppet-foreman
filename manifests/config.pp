@@ -48,7 +48,12 @@ class foreman::config {
   }
 
   if $foreman::reports { include foreman::config::reports }
-  if $foreman::passenger  { include foreman::config::passenger }
+  if $foreman::passenger  {
+    class {'foreman::config::passenger':
+      require => Class['puppet::server'],
+    }
+  }
+
   include foreman::config::database
 
 }
