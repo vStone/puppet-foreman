@@ -32,6 +32,14 @@ class foreman::config {
   file { $foreman::app_root:
     ensure  => directory,
   }
+  file { "${foreman::app_root}/Gemfile.lock":
+    ensure  => 'present',
+    owner   => $foreman::user,
+    require => [
+      User[$foreman::user],
+      File[$foreman::app_root],
+    ]
+  }
 
   user { $foreman::user:
     ensure  => 'present',
