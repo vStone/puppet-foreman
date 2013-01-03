@@ -1,0 +1,18 @@
+<% @header = ''
+   ERB.new(File.read(File.expand_path("_header.erb",File.dirname(file))), nil, nil, "@header").result(binding) -%>
+---
+<%= @header %>
+<%= scope.lookupvar('foreman::environment') %>:
+<%
+  settings = scope.lookupvar('foreman::database_settings').clone || {}
+  map = {
+    'user'   => 'username',
+    'name'   => 'database',
+    'server' => 'host',
+  }
+  settings.keys.each { |k| settings[map[k]] = settings.delete(k) if map[k] }
+  settings.keys.sort.each do |key|
+    value = settings[key]
+-%>
+  <%= key %>: <%= value %>
+<% end %>

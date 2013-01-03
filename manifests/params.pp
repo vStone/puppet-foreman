@@ -31,7 +31,14 @@ class foreman::params {
   $app_root    = "${railspath}/foreman"
   $user        = 'foreman'
   $environment = 'production'
-  $use_sqlite  = true
+
+  $database_settings = {
+    'adapter'  => 'sqlite3',
+    'database' => 'db/production.sqlite3',
+    'pool'     => 5,
+    'timeout'  => 5000,
+  }
+  #  $use_sqlite        = true
 
   # OS specific paths
   case $::operatingsystem {

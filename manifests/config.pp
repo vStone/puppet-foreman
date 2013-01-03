@@ -49,4 +49,6 @@ class foreman::config {
 
   if $foreman::reports { include foreman::config::reports }
   if $foreman::passenger  { include foreman::config::passenger }
+  include foreman::config::database
+
 }

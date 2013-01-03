@@ -11,6 +11,7 @@ class foreman (
   $custom_repo     = $foreman::params::custom_repo,
   $repo            = $foreman::params::repo,
   $use_sqlite      = $foreman::params::use_sqlite,
+  $database_settings = $foreman::params::database_settings,
   $railspath       = $foreman::params::railspath,
   $app_root        = $foreman::params::app_root,
   $user            = $foreman::params::user,
