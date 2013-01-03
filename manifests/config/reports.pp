@@ -13,5 +13,19 @@ class foreman::config::reports {
   }
 
 
+  exec { 'foreman-config-reports-create-dir':
+    command => "/bin/mkdir -p ${puppet_basedir}/reports",
+    creates => "${puppet_basedir}/reports"
+  }
+  file {"${puppet_basedir}/reports/foreman.rb":
+    mode     => '0444',
+    owner    => 'puppet',
+    group    => 'puppet',
+    content  => template('foreman/foreman-report.rb.erb'),
+    require  => [
+      Exec['foreman-config-reports-create-dir'],
+      Class['::puppet::server::install']
+    ],
+  }
 
 }
