@@ -61,6 +61,14 @@ class foreman::config {
       require => Class['puppet::server'],
     }
   }
+  if $foreman::enc {
+    class {'foreman::config::enc':
+      foreman_url  => $foreman::foreman_url,
+      facts        => $foreman::facts,
+      storeconfigs => $foreman::storeconfigs,
+      puppet_home  => $foreman::puppet_home,
+    }
+  }
 
   include foreman::config::database
 
