@@ -10,6 +10,10 @@ class foreman::config::database {
     notify  => Exec['foreman_rake_db:migrate_refresh'],
   }
 
+  Exec {
+    path        => ['/usr/bin','/bin'],
+  }
+
   exec {'foreman_rake_db:migrate_refresh':
     command     => 'rm /var/lib/foreman/db.migrated',
     onlyif      => 'test -f /var/lib/foreman/db.migrated',
@@ -22,7 +26,6 @@ class foreman::config::database {
     command     => 'bundle exec rake db:migrate && date > /var/lib/foreman/db.migrated',
     environment => ["RAILS_ENV=${foreman::environment}"],
     cwd         => $::foreman::app_root,
-    path        => ['/usr/bin','/bin'],
     require     => [
       File['/etc/foreman/database.yml'],
     ]
