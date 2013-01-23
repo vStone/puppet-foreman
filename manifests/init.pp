@@ -18,7 +18,9 @@ class foreman (
   $environment            = $foreman::params::environment,
   $puppet_basedir         = $foreman::params::puppet_basedir,
   $apache_conf_dir        = $foreman::params::apache_conf_dir,
-  $puppet_home            = $foreman::params::puppet_home
+  $puppet_home            = $foreman::params::puppet_home,
+  $locations_enabled      = $foreman::params::locations_enabled,
+  $organizations_enabled  = $foreman::params::organizations_enabled
 ) inherits foreman::params {
   class { 'foreman::install': } ~>
   class { 'foreman::config': } ~>
